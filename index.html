@@ -152,6 +152,8 @@
 
 <script>
 const TG = 'https://t.me/antonina_aldatova';
+// Ссылка веб-приложения Google Apps Script (таблица ответов). Пусто — ответы отправляются только вручную через Telegram.
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyhVIykMm87ooUVF5ptttnX8ZtO8sg6q2mOWEEjpRUn3Kc-Wj41IPq43YOgGHE2ivY/exec';
 
 function kettle(heat){
   return `<svg class="kettle" data-heat="${heat}" viewBox="0 0 200 200" aria-hidden="true">
@@ -187,6 +189,7 @@ function kettle(heat){
 const Q = [
   {id:'name', type:'text', q:'Как тебя зовут?', ph:'Имя', req:true, short:true, tip:'Привет! Я Нейрочайник. Давай знакомиться'},
   {id:'job', type:'text', q:'Чем ты занимаешься?', hint:'Например: мастер маникюра, психолог, кондитер, гид', ph:'Моё дело', req:true, short:true, tip:'Расскажи про своё дело — так советы будут точнее'},
+  {id:'phone', type:'text', q:'Твой телефон или ник в Telegram', hint:'Необязательно — чтобы я могла написать тебе с рекомендациями', ph:'+7… или @ник', short:true, tip:'Можно пропустить — просто нажми «Дальше»'},
   {id:'nets', type:'multi', q:'Какими нейросетями пользуешься?', hint:'Можно выбрать несколько', opts:['Пока никакими','DeepSeek','ChatGPT','Claude','Другими'], excl:['Пока никакими'], tip:'Тут нет неправильных ответов. Честно — значит полезно'},
   {id:'freq', type:'single', q:'Как часто?', opts:['Не пользуюсь','Пару раз пробовала','Каждую неделю','Каждый день'], score:[0,1,2,3], tip:'Даже «пару раз» — это уже начало'},
   {id:'use', type:'multi', q:'Для чего чаще всего?', hint:'Можно выбрать несколько', opts:['Задать вопрос','Написать текст','Для соцсетей: посты, сторис, Reels','Картинки','Видео','Другое','Пока ни для чего'], excl:['Пока ни для чего'], tip:'Отметь всё, для чего уже пробовала'},
@@ -227,8 +230,8 @@ function intro(){
       <div class="bubble" style="display:inline-block;margin-bottom:18px">Привет! Я <b>Нейрочайник</b> — проверим, насколько ты уже кипишь?</div>
       <h1>Ты ещё <em>чайник</em><br>или уже свистишь?</h1>
       <div class="script" style="font-size:30px;margin:8px 0 14px">Тебе можно проще</div>
-      <p class="lead">Ответь на 14 коротких вопросов и узнай свой уровень в нейросетях. А по твоим ответам я подберу программу именно для тебя.</p>
-      <div class="facts"><span><i>✦</i>14 вопросов</span><span><i>✦</i>3 минуты</span><span><i>✦</i>программа под тебя</span></div>
+      <p class="lead">Ответь на ${Q.length} коротких вопросов и узнай свой уровень в нейросетях. А по твоим ответам я подберу программу именно для тебя.</p>
+      <div class="facts"><span><i>✦</i>${Q.length} вопросов</span><span><i>✦</i>3 минуты</span><span><i>✦</i>программа под тебя</span></div>
     </div>
     <div class="levels">
       <div class="lv">${kettle(0)}<b>Уровень 1</b>Чайник только поставили</div>
@@ -236,7 +239,7 @@ function intro(){
       <div class="lv">${kettle(3)}<b>Уровень 3</b>Свистит!</div>
     </div>
     <button class="btn" onclick="go(0)">Поставить чайник <span class="arr">→</span></button>
-    <div class="foot">Ответы видим только ты и я — ты сама решаешь, отправлять ли их мне</div>
+    <div class="foot">${SHEET_URL ? 'Нажимая «Поставить чайник», ты соглашаешься, что твои ответы получит Антонина Алдатова, чтобы подобрать тебе программу. Больше они никуда не передаются' : 'Ответы видим только ты и я — ты сама решаешь, отправлять ли их мне'}</div>
   </div>`;
   window.scrollTo(0,0);
 }
@@ -346,7 +349,7 @@ function advice(L){
 function answersText(L){
   const lines = [
     'Привет, Антонина! Я прошла нейро-тест.', '',
-    `Имя: ${A.name||'—'}`, `Чем занимаюсь: ${A.job||'—'}`,
+    `Имя: ${A.name||'—'}`, `Чем занимаюсь: ${A.job||'—'}`, ...(A.phone ? [`Контакт: ${A.phone}`] : []),
     `Мой результат: уровень ${L.n} «${L.name}» — ${L.title}`, '',
     'Что мне подойдёт:', ...L.fit.map(f=>'• '+f), '',
     'Рекомендации для меня:', ...advice(L).map(f=>'• '+f), ''
@@ -354,12 +357,32 @@ function answersText(L){
   const g = goalsList();
   if (g.length) lines.push('Хочу научиться:', ...g.map(f=>'• '+f), '');
   lines.push('— Мои ответы —');
-  Q.forEach((q,k)=>{ if (q.id!=='name' && q.id!=='job') lines.push(`${k+1}. ${q.q}\n— ${val(q)}`); });
+  Q.forEach((q,k)=>{ if (!['name','job','phone'].includes(q.id)) lines.push(`${k+1}. ${q.q}\n— ${val(q)}`); });
   return lines.join('\n').replace(/твой бизнес/g,'мой бизнес').replace(/твоему/g,'моему');
+}
+
+let sent = false;
+function sendToSheet(L){
+  if (!SHEET_URL || sent) return;
+  sent = true;
+  const g = goalsList(), adv = advice(L);
+  const fields = [
+    ['Имя', A.name||''], ['Телефон', A.phone||''], ['Чем занимается', A.job||''],
+    ['Уровень', L.n], ['Результат', `${L.name} — ${L.title}`],
+    ['Рекомендации', adv.join('; ')], ['Хочет научиться', g.join('; ')]
+  ];
+  Q.forEach(q=>{ if (!['name','job','phone'].includes(q.id)) fields.push([q.q, val(q)]); });
+  const fear = (A.fear||'').trim();
+  const summary = `🔔 Новый нейро-тест\n${A.name||'—'} · ${A.job||'—'}${A.phone?`\nКонтакт: ${A.phone}`:''}\nУровень ${L.n} «${L.name}» — ${L.title}` +
+    (g.length ? `\nХочет: ${g.join(', ')}` : '') + (fear ? `\nБоится: ${fear}` : '');
+  try {
+    fetch(SHEET_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({fields, summary})}).catch(()=>{});
+  } catch(e) {}
 }
 
 function result(){
   const L = score(), txt = answersText(L);
+  sendToSheet(L);
   const goals = goalsList();
   app.innerHTML = `<div class="screen">${head()}
     <div class="thermo"><div class="bar"><i style="width:100%"></i></div><span>100°</span></div>
@@ -376,16 +399,16 @@ function result(){
     <div class="card accent">
       <h3>Подберу программу именно для тебя</h3>
       <p class="lead" style="font-size:15px">Уровень — это только начало. По твоим ответам я пойму, что тебе важно, что отнимает время и что останавливает, — и предложу формат и программу под тебя.</p>
-      <ul class="steps">
+      ${SHEET_URL ? `<p class="lead" style="font-size:15px;margin:12px 0 16px"><b style="color:#2f8a3f">Твои ответы уже у меня ✓</b> Я посмотрю их и напишу тебе. А если хочешь обсудить сразу — напиши мне сама.</p>` : `<ul class="steps">
         <li>Нажми кнопку — ответы скопируются</li>
         <li>Откроется мой Telegram</li>
         <li>Вставь ответы в сообщение и отправь</li>
-      </ul>
-      <a class="btn" id="send" href="${TG}" target="_blank" rel="noopener">Отправить мне ответы <span class="arr">→</span></a>
+      </ul>`}
+      <a class="btn" id="send" href="${TG}" target="_blank" rel="noopener">${SHEET_URL ? 'Написать мне в Telegram' : 'Отправить мне ответы'} <span class="arr">→</span></a>
       <div class="copied" id="copied"></div>
       <details><summary>Посмотреть, что отправится</summary><pre id="pre">${esc(txt)}</pre></details>
     </div>
-    <button class="btn ghost" onclick="A={};intro()">Пройти заново</button>
+    <button class="btn ghost" onclick="A={};sent=false;intro()">Пройти заново</button>
     <div class="foot">Антонина Алдатова · маркетолог-смысловик<br><a href="${TG}" target="_blank" rel="noopener">@antonina_aldatova</a></div>
   </div>`;
   document.getElementById('send').onclick = () => {
