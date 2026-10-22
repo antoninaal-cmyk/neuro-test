@@ -3,69 +3,148 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Твой нейро-уровень</title>
-<meta name="description" content="Тест на 3 минуты от Антонины Алдатовой: узнай свой уровень в нейросетях и какая программа тебе подойдёт.">
-<meta property="og:title" content="Какой у тебя нейро-уровень? · Антонина Алдатова">
-<meta property="og:description" content="14 вопросов, 3 минуты. Узнай свой уровень и получи программу под себя.">
+<title>Нейрочайник · тест</title>
+<meta name="description" content="Тест на 3 минуты от Антонины Алдатовой: ты ещё чайник в нейросетях или уже свистишь? Узнай свой уровень и получи программу под себя.">
+<meta property="og:title" content="Ты ещё чайник или уже свистишь? · Нейро-тест">
+<meta property="og:description" content="14 вопросов, 3 минуты. Узнай свой уровень в нейросетях и что тебе подойдёт.">
 <meta property="og:image" content="hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;700&family=Marck+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Manrope:wght@400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#111010;--red:#C8161D;--snow:#F6F4F2;--white:#fff;--grey:#6b6764;--line:#e2ddd8}
+  :root{
+    --black:#111010;--red:#C8161D;--red-d:#a50f15;--red-soft:#fdeeee;
+    --bg:#F6F4F2;--card:#fff;--grey:#6b6764;--line:#e7e2dd;--steam:#cfc8c2;
+    --shadow:0 2px 12px rgba(17,16,16,.06);--shadow-h:0 10px 26px rgba(17,16,16,.12);
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{min-height:100%}
-  body{background:var(--black);color:var(--white);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:620px;margin:0 auto;padding:22px 16px 40px;min-height:100vh;display:flex;flex-direction:column}
-  .top{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8b8785;padding-bottom:16px;border-bottom:1px solid #2c2a29}
-  .top b{color:var(--red);font-weight:700}
-  h1,h2{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.05}
-  h1{font-size:clamp(44px,11vw,68px);margin:26px 0 6px}
-  h2{font-size:clamp(28px,7vw,38px);margin-bottom:10px}
-  .script{font-family:'Marck Script',cursive;color:var(--red);font-weight:400}
-  .lead{font-size:16px;line-height:1.6;color:#d9d5d2}
-  .kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:12px}
-  .arch{width:200px;height:270px;border-radius:120px 120px 12px 12px;border:1.5px solid var(--red);padding:6px;margin:26px auto 6px;position:relative}
-  .arch img{width:100%;height:100%;object-fit:cover;border-radius:114px 114px 8px 8px;display:block}
-  .seal{position:absolute;right:-34px;bottom:18px;width:86px;height:86px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Marck Script',cursive;font-size:18px;line-height:1;transform:rotate(-12deg)}
-  .facts{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 26px}
-  .facts span{border:1px solid #3a3736;padding:8px 12px;font-size:13px;color:#d9d5d2}
-  .btn{display:block;width:100%;background:var(--red);color:#fff;border:0;padding:17px 20px;font:700 16px Manrope,sans-serif;letter-spacing:.5px;cursor:pointer;text-align:center;text-decoration:none;transition:opacity .2s}
-  .btn:disabled{opacity:.35;cursor:default}
-  .btn.ghost{background:transparent;border:1px solid #3a3736;color:#d9d5d2;font-weight:500}
-  .progress{height:3px;background:#2c2a29;margin:18px 0 26px}
-  .progress i{display:block;height:100%;background:var(--red);transition:width .3s}
-  .qnum{font-size:12px;letter-spacing:2px;color:#8b8785;margin-bottom:10px}
-  .hint{font-size:14px;color:#a8a3a0;margin-bottom:18px;line-height:1.5}
-  .opts{display:flex;flex-direction:column;gap:10px;margin:8px 0 24px}
-  .opt{text-align:left;background:transparent;border:1px solid #3a3736;color:#fff;padding:15px 16px 15px 46px;font:500 16px Manrope,sans-serif;cursor:pointer;position:relative;line-height:1.35;transition:border-color .15s,background .15s}
-  .opt::before{content:"";position:absolute;left:16px;top:50%;width:16px;height:16px;margin-top:-8px;border:1.5px solid #6b6764;border-radius:50%}
-  .opt.multi::before{border-radius:2px}
-  .opt.on{border-color:var(--red);background:rgba(200,22,29,.12)}
-  .opt.on::before{border-color:var(--red);background:var(--red);box-shadow:inset 0 0 0 3px var(--black)}
-  textarea,input[type=text]{width:100%;background:transparent;border:1px solid #3a3736;color:#fff;padding:15px 16px;font:500 16px Manrope,sans-serif;margin:8px 0 24px;resize:vertical}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--black);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+  body::before{content:"";position:fixed;right:-120px;top:-140px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(200,22,29,.16),rgba(200,22,29,0) 70%);pointer-events:none;z-index:0}
+  body::after{content:"";position:fixed;left:-140px;bottom:-160px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(17,16,16,.06),rgba(17,16,16,0) 70%);pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:580px;margin:0 auto;padding:18px 16px 44px;min-height:100vh}
+  .top{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px}
+  .who{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--grey)}
+  .who img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid var(--red)}
+  .who b{display:block;color:var(--black);font-size:13px}
+  .chip{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--red);background:var(--red-soft);padding:7px 11px;border-radius:999px}
+
+  h1,h2{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.02;letter-spacing:-.3px}
+  h1{font-size:clamp(42px,11vw,62px)}
+  h1 em,h2 em{font-style:italic;color:var(--red)}
+  h2{font-size:clamp(27px,7vw,36px);margin-bottom:8px}
+  .script{font-family:'Marck Script',cursive;color:var(--red)}
+  .lead{font-size:16px;line-height:1.6;color:#3b3836}
+  .muted{color:var(--grey)}
+
+  /* --- Нейрочайник --- */
+  .kettle{display:block;overflow:visible}
+  .kettle .bob{animation:bob 3.2s ease-in-out infinite;transform-origin:100px 170px;transform-box:view-box}
+  .kettle .eyes{animation:blink 5s infinite;transform-origin:100px 123px;transform-box:view-box}
+  .kettle .puff{fill:var(--steam);opacity:0;transform-box:fill-box;transform-origin:center;animation:puff var(--sp,2.4s) ease-out infinite}
+  .kettle .puff:nth-child(2){animation-delay:calc(var(--sp,2.4s)*.25)}
+  .kettle .puff:nth-child(3){animation-delay:calc(var(--sp,2.4s)*.5)}
+  .kettle .puff:nth-child(4){animation-delay:calc(var(--sp,2.4s)*.75)}
+  .kettle[data-heat="0"] .puff{display:none}
+  .kettle[data-heat="1"] .puff:nth-child(n+3){display:none}
+  .kettle[data-heat="1"]{--sp:3.2s}
+  .kettle[data-heat="2"]{--sp:2.1s}
+  .kettle[data-heat="3"]{--sp:1.2s}
+  .kettle[data-heat="3"] .bob{animation:whistle .35s ease-in-out infinite}
+  .kettle .cheek{transition:opacity .4s}
+  .kettle[data-heat="3"] .cheek{opacity:.9}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @keyframes whistle{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg) translateY(-2px)}}
+  @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  @keyframes puff{0%{transform:translate(0,0) scale(.35);opacity:0}15%{opacity:.95}100%{transform:translate(-14px,-70px) scale(1.5);opacity:0}}
+
+  .hero{text-align:center;padding:6px 0 8px}
+  .hero .kettle{width:210px;height:210px;margin:0 auto -6px}
+  .bubble{position:relative;background:var(--card);border-radius:16px;padding:12px 16px;font-size:14.5px;line-height:1.45;box-shadow:var(--shadow);font-weight:500}
+  .facts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:20px 0 22px}
+  .facts span{background:var(--card);box-shadow:var(--shadow);border-radius:999px;padding:9px 14px;font-size:13px;font-weight:600}
+  .facts span i{font-style:normal;color:var(--red);margin-right:5px}
+
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 22px}
+  .lv{background:var(--card);border-radius:16px;padding:12px 8px;text-align:center;box-shadow:var(--shadow);font-size:12px;line-height:1.35;font-weight:600}
+  .lv .kettle{width:58px;height:58px;margin:0 auto 4px}
+  .lv b{display:block;font-size:13px;color:var(--red)}
+
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:999px;padding:18px 22px;font:800 16px Manrope,sans-serif;letter-spacing:.3px;cursor:pointer;text-decoration:none;color:#fff;
+       background:linear-gradient(135deg,#de2a31,var(--red) 55%,var(--red-d));box-shadow:0 8px 20px rgba(200,22,29,.28);position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s,opacity .2s}
+  .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 3.5s ease-in-out infinite}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(200,22,29,.34)}
+  .btn:active{transform:scale(.97)}
+  .btn:disabled{opacity:.35;cursor:default;box-shadow:none}
+  .btn:disabled::after{display:none}
+  .btn .arr{transition:transform .2s}
+  .btn:hover .arr{transform:translateX(4px)}
+  .btn.ghost{background:var(--card);color:var(--black);box-shadow:var(--shadow);font-weight:600}
+  .btn.ghost::after{display:none}
+  @keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+
+  /* --- Экран вопроса --- */
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin:4px 0 16px}
+  .qhead .kettle{width:86px;height:86px;flex:0 0 86px;margin-bottom:-4px}
+  .qhead .bubble{flex:1;margin-bottom:14px}
+  .qhead .bubble::before{content:"";position:absolute;left:-7px;bottom:16px;width:14px;height:14px;background:var(--card);transform:rotate(45deg);border-radius:2px}
+  .thermo{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .thermo .bar{flex:1;height:8px;border-radius:99px;background:#e9e4df;overflow:hidden}
+  .thermo .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#f0a7a9,var(--red));transition:width .45s cubic-bezier(.2,.8,.2,1)}
+  .thermo span{font-size:12px;font-weight:800;color:var(--red);min-width:42px;text-align:right}
+  .qnum{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--red);background:var(--red-soft);padding:5px 10px;border-radius:8px;margin-bottom:10px}
+  .hint{font-size:14px;color:var(--grey);margin-bottom:14px;line-height:1.5}
+
+  .opts{display:flex;flex-direction:column;gap:10px;margin:6px 0 20px}
+  .opts.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opt{display:flex;align-items:center;gap:12px;text-align:left;background:var(--card);border:1.5px solid transparent;border-radius:16px;color:var(--black);padding:15px 14px;font:600 15.5px Manrope,sans-serif;line-height:1.3;cursor:pointer;box-shadow:var(--shadow);
+       transition:transform .15s,box-shadow .15s,border-color .15s,background .15s;animation:rise .35s both;animation-delay:calc(var(--k)*45ms)}
+  .opt:hover{transform:translateY(-2px);box-shadow:var(--shadow-h)}
+  .opt:active{transform:scale(.98)}
+  .opt .n{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--red);background:var(--red-soft);border-radius:7px;padding:4px 7px;transition:background .15s,color .15s}
+  .opt .t{flex:1}
+  .opt .ck{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:1.5px solid #d3cdc7;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;transition:all .15s}
+  .opt.multi .ck{border-radius:7px}
+  .opt.on{border-color:var(--red);background:#fff9f9}
+  .opt.on .n{background:var(--red);color:#fff}
+  .opt.on .ck{background:var(--red);border-color:var(--red);animation:pop .3s}
+  .opts.grid .opt{flex-direction:column;align-items:flex-start;gap:8px;padding:14px 13px;font-size:14px;position:relative}
+  .opts.grid .opt .ck{position:absolute;right:11px;top:11px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(.5)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+  textarea,input[type=text]{width:100%;background:var(--card);border:1.5px solid transparent;border-radius:16px;box-shadow:var(--shadow);color:var(--black);padding:16px;font:500 16px Manrope,sans-serif;margin:6px 0 20px;resize:vertical;transition:border-color .15s}
   textarea{min-height:110px}
   textarea:focus,input:focus{outline:none;border-color:var(--red)}
-  .nav{display:flex;gap:10px;margin-top:4px}
-  .nav .btn.ghost{width:auto;flex:0 0 auto;white-space:nowrap;padding:17px 18px}
-  .result-level{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,10vw,58px);font-weight:600;line-height:1;margin:6px 0 4px}
-  .result-level em{color:var(--red);font-style:italic}
-  .card{border:1px solid #3a3736;padding:20px 18px;margin:20px 0}
-  .card.red{border-color:var(--red)}
-  .card h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:10px}
+  .other-label{font-size:13px;font-weight:700;color:var(--grey);margin:-6px 0 0}
+  .nav{display:flex;gap:10px}
+  .nav .ghost{flex:0 0 auto;width:auto;padding:18px 20px}
+
+  /* --- Результат --- */
+  .res-hero{text-align:center;padding-top:4px}
+  .res-hero .kettle{width:200px;height:200px;margin:0 auto -4px}
+  .whoosh{display:inline-block;font-family:'Marck Script',cursive;color:var(--red);font-size:30px;transform:rotate(-6deg);animation:wh 1s ease-in-out infinite alternate}
+  @keyframes wh{from{transform:rotate(-6deg) scale(1)}to{transform:rotate(-2deg) scale(1.08)}}
+  .badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--black);padding:8px 14px;border-radius:999px;margin:6px 0 12px}
+  .card{background:var(--card);border-radius:20px;padding:22px 20px;margin:16px 0;box-shadow:var(--shadow);animation:rise .4s both}
+  .card.accent{border:1.5px solid var(--red)}
+  .card h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;margin-bottom:10px;line-height:1.1}
   .card ul{list-style:none}
-  .card li{font-size:15px;line-height:1.5;padding:5px 0 5px 24px;position:relative;color:#e6e2df}
+  .card li{font-size:15px;line-height:1.5;padding:6px 0 6px 26px;position:relative}
   .card li::before{content:"✦";position:absolute;left:0;color:var(--red)}
-  .steps{counter-reset:s;list-style:none;margin:10px 0 18px}
-  .steps li{counter-increment:s;font-size:15px;line-height:1.5;padding:6px 0 6px 34px;position:relative;color:#e6e2df}
-  .steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
-  .copied{font-size:14px;color:#9fd3a5;margin:10px 0 0;min-height:20px;text-align:center}
-  details{margin-top:14px}
-  summary{cursor:pointer;font-size:14px;color:#a8a3a0}
-  pre{white-space:pre-wrap;font:13px/1.5 Manrope,sans-serif;color:#d9d5d2;background:#1b1a19;padding:14px;margin-top:10px;border:1px solid #2c2a29}
-  .foot{margin-top:30px;text-align:center;font-size:12px;color:#6b6764;letter-spacing:1px}
-  .foot a{color:#a8a3a0}
-  .screen{animation:in .25s ease}
-  @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+  .tags span{background:var(--red-soft);color:var(--red-d);font-size:13px;font-weight:700;padding:7px 11px;border-radius:999px}
+  .steps{list-style:none;margin:12px 0 18px;counter-reset:s}
+  .steps li{counter-increment:s;padding-left:36px}
+  .steps li::before{content:counter(s);left:0;top:5px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .copied{font-size:14px;font-weight:600;color:#2f8a3f;margin-top:10px;min-height:20px;text-align:center}
+  details{margin-top:12px}
+  summary{cursor:pointer;font-size:14px;color:var(--grey);font-weight:600}
+  pre{white-space:pre-wrap;font:13px/1.5 Manrope,sans-serif;color:#3b3836;background:var(--bg);padding:14px;margin-top:10px;border-radius:12px}
+  .foot{margin-top:26px;text-align:center;font-size:12px;color:var(--grey);line-height:1.6}
+  .foot a{color:var(--black);font-weight:700}
+  .screen{animation:slide .35s cubic-bezier(.2,.8,.2,1)}
+  @keyframes slide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -74,31 +153,61 @@
 <script>
 const TG = 'https://t.me/antonina_aldatova';
 
+function kettle(heat){
+  return `<svg class="kettle" data-heat="${heat}" viewBox="0 0 200 200" aria-hidden="true">
+    <ellipse cx="100" cy="184" rx="56" ry="7" fill="rgba(17,16,16,.08)"/>
+    <g class="bob">
+      <g transform="translate(186 80)">
+        <circle class="puff" cx="0" cy="0" r="9"/><circle class="puff" cx="6" cy="-4" r="7"/>
+        <circle class="puff" cx="-4" cy="-2" r="8"/><circle class="puff" cx="3" cy="2" r="6"/>
+      </g>
+      <path d="M62 78 Q100 26 138 78" fill="none" stroke="#111010" stroke-width="9" stroke-linecap="round"/>
+      <path d="M146 124 Q176 112 182 86 L192 90 Q187 126 150 144 Z" fill="#C8161D"/>
+      <path d="M44 150 Q38 86 100 79 Q162 86 156 150 Q155 174 100 176 Q45 174 44 150 Z" fill="#C8161D"/>
+      <path d="M50 160 Q100 172 150 160" fill="none" stroke="#a50f15" stroke-width="3" opacity=".6"/>
+      <ellipse cx="68" cy="108" rx="7" ry="15" fill="#fff" opacity=".28" transform="rotate(20 68 108)"/>
+      <ellipse cx="100" cy="81" rx="35" ry="8" fill="#111010"/>
+      <circle cx="100" cy="69" r="7" fill="#111010"/>
+      <g class="eyes">
+        <circle cx="82" cy="123" r="13" fill="#fff"/><circle cx="118" cy="123" r="13" fill="#fff"/>
+        <circle cx="84" cy="124" r="5.5" fill="#111010"/><circle cx="120" cy="124" r="5.5" fill="#111010"/>
+        <circle cx="86" cy="122" r="1.8" fill="#fff"/><circle cx="122" cy="122" r="1.8" fill="#fff"/>
+      </g>
+      <circle cx="82" cy="123" r="13.5" fill="none" stroke="#111010" stroke-width="3"/>
+      <circle cx="118" cy="123" r="13.5" fill="none" stroke="#111010" stroke-width="3"/>
+      <path d="M95.5 121 Q100 117 104.5 121" fill="none" stroke="#111010" stroke-width="3" stroke-linecap="round"/>
+      <ellipse class="cheek" cx="66" cy="145" rx="8" ry="5" fill="#ff9aa0" opacity=".55"/>
+      <ellipse class="cheek" cx="134" cy="145" rx="8" ry="5" fill="#ff9aa0" opacity=".55"/>
+      <path d="M90 146 Q100 156 110 146" fill="none" stroke="#111010" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
 const Q = [
-  {id:'name', type:'text', q:'Как тебя зовут?', ph:'Имя', req:true, short:true},
-  {id:'job', type:'text', q:'Чем ты занимаешься?', hint:'Например: мастер маникюра, психолог, кондитер, гид', ph:'Моё дело', req:true, short:true},
-  {id:'nets', type:'multi', q:'Какими нейросетями пользуешься?', hint:'Можно выбрать несколько', opts:['Пока никакими','DeepSeek','ChatGPT','Claude','Другими'], excl:['Пока никакими']},
-  {id:'freq', type:'single', q:'Как часто?', opts:['Не пользуюсь','Пару раз пробовала','Каждую неделю','Каждый день'], score:[0,1,2,3]},
-  {id:'use', type:'multi', q:'Для чего чаще всего?', hint:'Можно выбрать несколько', opts:['Задать вопрос','Написать текст','Картинки','Видео','Другое','Пока ни для чего'], excl:['Пока ни для чего']},
-  {id:'prompts', type:'single', q:'Есть ли у тебя сохранённые промпты или настроенный помощник?', opts:['Нет','Есть сохранённые промпты','Есть настроенный помощник с инструкциями'], score:[0,1,2]},
-  {id:'content', type:'single', q:'Делала ли с нейросетью сторис, посты, карусели или монтаж?', opts:['Нет','Пробовала пару раз','Делаю регулярно'], score:[0,1,2]},
-  {id:'connect', type:'single', q:'Подключала ли нейросеть к другим сервисам: Telegram, таблицам, соцсетям?', opts:['Нет / не знаю, как это','Пробовала','Да, у меня подключено'], score:[0,1,2]},
-  {id:'time', type:'text', q:'Что в работе отнимает у тебя больше всего времени?', hint:'Своими словами', ph:'Например: придумывать, что выложить'},
-  {id:'goal', type:'text', q:'Что хочешь уметь с нейросетями через месяц?', hint:'Своими словами', ph:'Хочу, чтобы…'},
-  {id:'why', type:'single', q:'Для чего тебе соцсети?', opts:['Продвигаю свой бизнес или услуги','Веду личный блог, хочу на нём зарабатывать','Веду личный блог для себя','Пока не веду, но хочу начать']},
-  {id:'social', type:'multi', q:'Какие соцсети ты ведёшь?', hint:'Можно выбрать несколько', opts:['Instagram','Telegram-канал','ВКонтакте','MAX','YouTube или Дзен','Пока нигде'], excl:['Пока нигде']},
-  {id:'post', type:'single', q:'Как часто ты сейчас выкладываешь контент?', opts:['Каждый день','Несколько раз в неделю','Пару раз в месяц','Редко, когда есть настроение','Пока не выкладываю']},
-  {id:'fear', type:'text', q:'Что тебя пугает или останавливает в нейросетях?', hint:'Своими словами — так я лучше пойму, с чего начать именно тебе', ph:'Честно, как есть'}
+  {id:'name', type:'text', q:'Как тебя зовут?', ph:'Имя', req:true, short:true, tip:'Привет! Я Нейрочайник. Давай знакомиться'},
+  {id:'job', type:'text', q:'Чем ты занимаешься?', hint:'Например: мастер маникюра, психолог, кондитер, гид', ph:'Моё дело', req:true, short:true, tip:'Расскажи про своё дело — так советы будут точнее'},
+  {id:'nets', type:'multi', q:'Какими нейросетями пользуешься?', hint:'Можно выбрать несколько', opts:['Пока никакими','DeepSeek','ChatGPT','Claude','Другими'], excl:['Пока никакими'], tip:'Тут нет неправильных ответов. Честно — значит полезно'},
+  {id:'freq', type:'single', q:'Как часто?', opts:['Не пользуюсь','Пару раз пробовала','Каждую неделю','Каждый день'], score:[0,1,2,3], tip:'Даже «пару раз» — это уже начало'},
+  {id:'use', type:'multi', q:'Для чего чаще всего?', hint:'Можно выбрать несколько', opts:['Задать вопрос','Написать текст','Для соцсетей: посты, сторис, Reels','Картинки','Видео','Другое','Пока ни для чего'], excl:['Пока ни для чего'], tip:'Отметь всё, для чего уже пробовала'},
+  {id:'memory', type:'single', q:'Когда ты открываешь нейросеть, она уже знает, кто ты и чем занимаешься?', opts:['Нет, каждый раз объясняю всё заново','Копирую одно и то же описание из заметок','Да, у меня есть постоянный чат, который знает всё обо мне и работает как мой маркетолог','Не задумывалась об этом'], score:[0,1,2,0], tip:'Если объясняешь заново каждый раз — это лечится за один вечер'},
+  {id:'content', type:'single', q:'Делала ли с нейросетью сторис, посты, карусели или монтаж?', opts:['Нет','Пробовала пару раз','Делаю регулярно'], score:[0,1,2], tip:'Пробовала хоть раз — считается!'},
+  {id:'connect', type:'single', q:'Подключала ли нейросеть к другим сервисам: Telegram, таблицам, соцсетям?', opts:['Нет / не знаю, как это','Пробовала','Да, у меня подключено'], score:[0,1,2], tip:'Не знаешь, что это? Нормально, скоро узнаешь'},
+  {id:'time', type:'text', q:'Что в работе отнимает у тебя больше всего времени?', hint:'Своими словами', ph:'Например: придумывать, что выложить', tip:'Напиши своими словами — так я пойму, где болит'},
+  {id:'goal', type:'multi', grid:true, other:true, q:'Что хочешь уметь с нейросетями через месяц?', hint:'Отметь всё, что откликается. Многие даже не знают, что так можно', opts:['Писать посты и сторис в 2–3 раза быстрее','Делать карусели','Монтировать Reels: субтитры, паузы, нарезка','Составлять контент-план на месяц','Иметь своего ИИ-маркетолога, который знает мой бизнес','Создать сайт или страницу услуги','Сделать лид-магнит: гайд, чек-лист, тест','Делать презентации','Получать дайджест новостей каждое утро','Завести Telegram-бота','Чтобы публикации выходили сами'], tip:'Да-да, всё это реально сделать с нейросетью'},
+  {id:'why', type:'single', q:'Для чего тебе соцсети?', opts:['Продвигаю свой бизнес или услуги','Веду личный блог, хочу на нём зарабатывать','Веду личный блог для себя','Пока не веду, но хочу начать'], tip:'Почти закипаем!'},
+  {id:'social', type:'multi', q:'Какие соцсети ты ведёшь?', hint:'Можно выбрать несколько', opts:['Instagram','Telegram-канал','ВКонтакте','MAX','YouTube или Дзен','Пока нигде'], excl:['Пока нигде'], tip:'Отметь все площадки'},
+  {id:'post', type:'single', q:'Как часто ты сейчас выкладываешь контент?', opts:['Каждый день','Несколько раз в неделю','Пару раз в месяц','Редко, когда есть настроение','Пока не выкладываю'], tip:'Ещё чуть-чуть!'},
+  {id:'fear', type:'text', q:'Что тебя пугает или останавливает в нейросетях?', hint:'Своими словами — так я лучше пойму, с чего начать именно тебе', ph:'Честно, как есть', tip:'Последний вопрос — и я засвищу результат'}
 ];
 
 const LEVELS = [
-  {n:1, name:'Знакомство', title:'Ты в начале пути — и это лучшее место для старта',
+  {n:1, name:'Знакомство', title:'Чайник только поставили', heat:1,
    text:'Нейросети пока кажутся сложными, но тебе нужно совсем немного, чтобы они начали экономить часы. Начнём с основы — и уже на первой встрече ты почувствуешь разницу.',
    fit:['Регистрация в Claude и ChatGPT без путаницы','Первые запросы: как спрашивать, чтобы получать нужное','Свой личный нейромаркетолог, который знает твой бизнес','Готовые промпты для постов и сторис']},
-  {n:2, name:'Контент', title:'Ты уже пользуешься — пора, чтобы нейросеть работала на твой контент',
+  {n:2, name:'Контент', title:'Закипает!', heat:2,
    text:'База у тебя есть. Следующий шаг — превратить нейросеть в помощника, который регулярно выдаёт идеи и готовый контент.',
    fit:['Сторис, посты и карусели с нейросетью','Монтаж Reels: паузы, субтитры, нарезка','Контент-план и рубрики — из одной идеи десятки роликов','Дайджест новостей нейросетей каждое утро']},
-  {n:3, name:'Автоматизация', title:'Ты уверенно пользуешься — следующий шаг, чтобы рутина делалась сама',
+  {n:3, name:'Автоматизация', title:'Свистит!', heat:3,
    text:'Тебе уже мало отдельных запросов. Пора собрать агента, который сам работает с файлами, сервисами и публикациями.',
    fit:['Свой агент под задачи бизнеса','Подключение Telegram, таблиц и других сервисов','Сайт или лид-магнит — от создания до публикации','Автопубликация и задачи по расписанию']}
 ];
@@ -106,25 +215,37 @@ const LEVELS = [
 let i = -1, A = {};
 const app = document.getElementById('app');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const head = () => `<div class="top"><span>Антонина Алдатова</span><b>нейро-тест</b></div>`;
+const pad = n => String(n).padStart(2,'0');
+const head = () => `<div class="top"><div class="who"><img src="hero.jpg" alt=""><span><b>Антонина Алдатова</b>маркетолог-смысловик</span></div><span class="chip">нейро-тест</span></div>`;
 
 function intro(){
+  i = -1;
   app.innerHTML = `<div class="screen">${head()}
-    <div class="arch"><img src="hero.jpg" alt="Антонина Алдатова"><div class="seal">3<br>минуты</div></div>
-    <div class="kicker" style="text-align:center;margin-top:22px">Тест для мастеров и экспертов</div>
-    <h1 style="text-align:center;margin-top:0">Какой у тебя<br>нейро-уровень?</h1>
-    <div class="script" style="font-size:34px;text-align:center;margin-bottom:16px">Тебе можно проще</div>
-    <p class="lead" style="text-align:center">Ответь на 14 коротких вопросов — и узнаешь, на каком ты уровне в нейросетях. А по твоим ответам я подберу программу именно для тебя.</p>
-    <div class="facts" style="justify-content:center"><span>14 вопросов</span><span>3 минуты</span><span>3 уровня</span></div>
-    <button class="btn" onclick="go(0)">Начать тест →</button>
-    <div class="foot">Ответы видишь только ты и я — ты сама решаешь, отправлять ли их мне</div>
+    <div class="hero">
+      ${kettle(1)}
+      <div class="bubble" style="display:inline-block;margin-bottom:18px">Привет! Я <b>Нейрочайник</b> — проверим, насколько ты уже кипишь?</div>
+      <h1>Ты ещё <em>чайник</em><br>или уже свистишь?</h1>
+      <div class="script" style="font-size:30px;margin:8px 0 14px">Тебе можно проще</div>
+      <p class="lead">Ответь на 14 коротких вопросов и узнай свой уровень в нейросетях. А по твоим ответам я подберу программу именно для тебя.</p>
+      <div class="facts"><span><i>✦</i>14 вопросов</span><span><i>✦</i>3 минуты</span><span><i>✦</i>программа под тебя</span></div>
+    </div>
+    <div class="levels">
+      <div class="lv">${kettle(0)}<b>Уровень 1</b>Чайник только поставили</div>
+      <div class="lv">${kettle(2)}<b>Уровень 2</b>Закипает</div>
+      <div class="lv">${kettle(3)}<b>Уровень 3</b>Свистит!</div>
+    </div>
+    <button class="btn" onclick="go(0)">Поставить чайник <span class="arr">→</span></button>
+    <div class="foot">Ответы видим только ты и я — ты сама решаешь, отправлять ли их мне</div>
   </div>`;
+  window.scrollTo(0,0);
 }
 
-function go(n){ i = n; n >= Q.length ? result() : ask(); window.scrollTo(0,0); }
+function go(n){ if (n < 0) return intro(); i = n; n >= Q.length ? result() : ask(); window.scrollTo(0,0); }
 
 function ask(){
   const q = Q[i], v = A[q.id];
+  const heat = i < Q.length/3 ? 1 : i < Q.length*2/3 ? 2 : 3;
+  const deg = Math.round(20 + 80*i/Q.length);
   let body = '';
   if (q.type === 'text') {
     const val = esc(v || '');
@@ -132,50 +253,55 @@ function ask(){
       ? `<input type="text" id="t" placeholder="${esc(q.ph||'')}" value="${val}" autocomplete="off">`
       : `<textarea id="t" placeholder="${esc(q.ph||'')}">${val}</textarea>`;
   } else {
-    body = `<div class="opts">${q.opts.map((o,k)=>{
+    body = `<div class="opts ${q.grid?'grid':''}">${q.opts.map((o,k)=>{
       const on = q.type==='single' ? v===k : (v||[]).includes(k);
-      return `<button class="opt ${q.type==='multi'?'multi':''} ${on?'on':''}" onclick="pick(${k})">${esc(o)}</button>`;
+      return `<button class="opt ${q.type==='multi'?'multi':''} ${on?'on':''}" style="--k:${k}" onclick="pick(${k})"><span class="n">${pad(k+1)}</span><span class="t">${esc(o)}</span><span class="ck">${on?'✓':''}</span></button>`;
     }).join('')}</div>`;
+    if (q.other) body += `<div class="other-label">Своё — напиши, если чего-то нет в списке</div><textarea id="other" placeholder="Хочу ещё…" style="min-height:80px">${esc(A[q.id+'_other']||'')}</textarea>`;
   }
   const needNext = q.type !== 'single';
-  app.innerHTML = `<div class="screen" style="display:flex;flex-direction:column;flex:1">${head()}
-    <div class="progress"><i style="width:${(i/Q.length)*100}%"></i></div>
+  app.innerHTML = `<div class="screen">${head()}
+    <div class="qhead">${kettle(heat === 3 ? 2 : heat)}<div class="bubble">${esc(q.tip||'')}</div></div>
+    <div class="thermo"><div class="bar"><i style="width:${(i/Q.length)*100}%"></i></div><span>${deg}°</span></div>
     <div class="qnum">ВОПРОС ${i+1} ИЗ ${Q.length}</div>
     <h2>${esc(q.q)}</h2>
     ${q.hint?`<div class="hint">${esc(q.hint)}</div>`:''}
     ${body}
     <div class="nav">
       <button class="btn ghost" onclick="go(${i-1})">← Назад</button>
-      ${needNext?`<button class="btn" id="next" onclick="next()">${i===Q.length-1?'Узнать результат':'Дальше →'}</button>`:''}
+      ${needNext?`<button class="btn" id="next" onclick="next()">${i===Q.length-1?'Узнать результат':'Дальше'} <span class="arr">→</span></button>`:''}
     </div>
   </div>`;
-  if (i === 0) document.querySelector('.nav .ghost').onclick = intro;
   const t = document.getElementById('t');
   if (t) { t.focus(); t.oninput = check; t.onkeydown = e => { if (e.key==='Enter' && q.short) { e.preventDefault(); next(); } }; }
+  const o = document.getElementById('other');
+  if (o) o.oninput = () => { A[q.id+'_other'] = o.value; check(); };
   check();
 }
 
 function check(){
   const q = Q[i], b = document.getElementById('next'); if (!b) return;
   if (q.type === 'text') b.disabled = q.req && !document.getElementById('t').value.trim();
-  if (q.type === 'multi') b.disabled = !(A[q.id]||[]).length;
+  if (q.type === 'multi') b.disabled = !(A[q.id]||[]).length && !(q.other && (A[q.id+'_other']||'').trim());
 }
 
 function pick(k){
   const q = Q[i];
-  if (q.type === 'single') { A[q.id] = k; ask(); setTimeout(()=>go(i+1), 220); return; }
+  if (q.type === 'single') { A[q.id] = k; ask(); setTimeout(()=>go(i+1), 260); return; }
   let s = A[q.id] || [];
   const exclIdx = (q.excl||[]).map(e=>q.opts.indexOf(e));
   if (s.includes(k)) s = s.filter(x=>x!==k);
   else if (exclIdx.includes(k)) s = [k];
   else s = s.filter(x=>!exclIdx.includes(x)).concat(k);
-  A[q.id] = s; ask();
+  A[q.id] = s;
+  const y = window.scrollY; ask(); window.scrollTo(0,y);
+  document.querySelectorAll('.opt,.screen').forEach(el=>el.style.animation='none');
 }
 
 function next(){
   const q = Q[i];
   if (q.type === 'text') { const val = document.getElementById('t').value.trim(); if (q.req && !val) return; A[q.id] = val; }
-  if (q.type === 'multi' && !(A[q.id]||[]).length) return;
+  if (q.type === 'multi') { const b = document.getElementById('next'); if (b && b.disabled) return; }
   go(i+1);
 }
 
@@ -183,48 +309,57 @@ function score(){
   const get = id => Q.find(q=>q.id===id);
   let s = 0;
   const nets = (A.nets||[]).map(k=>get('nets').opts[k]);
-  if (!nets.includes('Пока никакими')) s += (nets.length >= 2 || nets.includes('Claude')) ? 2 : 1;
+  if (nets.length && !nets.includes('Пока никакими')) s += (nets.length >= 2 || nets.includes('Claude')) ? 2 : 1;
   const use = (A.use||[]).map(k=>get('use').opts[k]);
-  if (!use.includes('Пока ни для чего')) s += Math.min(2, ['Написать текст','Картинки','Видео'].filter(x=>use.includes(x)).length);
-  ['freq','prompts','content','connect'].forEach(id=>{ const q=get(id); if (A[id]!=null) s += q.score[A[id]]; });
+  if (!use.includes('Пока ни для чего')) s += Math.min(2, ['Написать текст','Для соцсетей: посты, сторис, Reels','Картинки','Видео'].filter(x=>use.includes(x)).length);
+  ['freq','memory','content','connect'].forEach(id=>{ const q=get(id); if (A[id]!=null) s += q.score[A[id]]; });
   return s <= 4 ? LEVELS[0] : s <= 9 ? LEVELS[1] : LEVELS[2];
 }
 
+function val(q){
+  let v = A[q.id];
+  if (q.type==='single') v = v!=null ? q.opts[v] : '—';
+  else if (q.type==='multi') { v = (v||[]).map(x=>q.opts[x]); if (q.other && (A[q.id+'_other']||'').trim()) v.push('своё: '+A[q.id+'_other'].trim()); v = v.join(', ') || '—'; }
+  else v = v || '—';
+  return v;
+}
+
 function answersText(L){
-  const lines = [`Привет, Антонина! Я прошла нейро-тест.`, `Мой результат: уровень ${L.n} «${L.name}»`, ''];
-  Q.forEach((q,k)=>{
-    let v = A[q.id];
-    if (q.type==='single') v = v!=null ? q.opts[v] : '—';
-    else if (q.type==='multi') v = (v||[]).map(x=>q.opts[x]).join(', ') || '—';
-    else v = v || '—';
-    lines.push(`${k+1}. ${q.q}\n— ${v}`);
-  });
+  const lines = ['Привет, Антонина! Я прошла нейро-тест.', `Мой результат: уровень ${L.n} «${L.name}» — ${L.title}`, ''];
+  Q.forEach((q,k)=>lines.push(`${k+1}. ${q.q}\n— ${val(q)}`));
   return lines.join('\n');
 }
 
 function result(){
   const L = score(), txt = answersText(L);
+  const gq = Q.find(q=>q.id==='goal');
+  const goals = (A.goal||[]).map(k=>gq.opts[k]);
+  if ((A.goal_other||'').trim()) goals.push(A.goal_other.trim());
   app.innerHTML = `<div class="screen">${head()}
-    <div class="progress"><i style="width:100%"></i></div>
-    <div class="kicker">${esc(A.name||'')}, твой результат</div>
-    <div class="result-level">Уровень ${L.n}<br><em>«${L.name}»</em></div>
-    <h2 style="font-size:24px;margin:16px 0 10px">${L.title}</h2>
-    <p class="lead">${L.text}</p>
+    <div class="thermo"><div class="bar"><i style="width:100%"></i></div><span>100°</span></div>
+    <div class="res-hero">
+      ${kettle(L.heat)}
+      ${L.n===3?'<div class="whoosh">фьють-фьють!</div>':''}
+      <div><span class="badge">${esc(A.name||'')} · уровень ${L.n} «${L.name}»</span></div>
+      <h1 style="font-size:clamp(44px,12vw,64px)"><em>${L.title}</em></h1>
+    </div>
+    <p class="lead" style="text-align:center;margin:12px 0 4px">${L.text}</p>
     <div class="card"><h3>Что тебе подойдёт</h3><ul>${L.fit.map(f=>`<li>${f}</li>`).join('')}</ul></div>
-    <div class="card red">
+    ${goals.length?`<div class="card"><h3>Ты хочешь научиться</h3><div class="tags">${goals.map(g=>`<span>${esc(g)}</span>`).join('')}</div><p class="lead" style="font-size:15px">Всё это реально сделать с нейросетью. Я подскажу, с чего начать именно тебе.</p></div>`:''}
+    <div class="card accent">
       <h3>Подберу программу именно для тебя</h3>
-      <p class="lead" style="font-size:15px;margin-bottom:8px">Уровень — это только начало. По твоим ответам я пойму, что тебе важно, что отнимает время и что останавливает, — и предложу формат и программу под тебя.</p>
-      <ol class="steps">
+      <p class="lead" style="font-size:15px">Уровень — это только начало. По твоим ответам я пойму, что тебе важно, что отнимает время и что останавливает, — и предложу формат и программу под тебя.</p>
+      <ul class="steps">
         <li>Нажми кнопку — ответы скопируются</li>
         <li>Откроется мой Telegram</li>
         <li>Вставь ответы в сообщение и отправь</li>
-      </ol>
-      <a class="btn" id="send" href="${TG}" target="_blank" rel="noopener">Отправить ответы Антонине →</a>
+      </ul>
+      <a class="btn" id="send" href="${TG}" target="_blank" rel="noopener">Отправить мне ответы <span class="arr">→</span></a>
       <div class="copied" id="copied"></div>
       <details><summary>Посмотреть, что отправится</summary><pre id="pre">${esc(txt)}</pre></details>
     </div>
     <button class="btn ghost" onclick="A={};intro()">Пройти заново</button>
-    <div class="foot">Антонина Алдатова · <a href="${TG}" target="_blank" rel="noopener">@antonina_aldatova</a></div>
+    <div class="foot">Антонина Алдатова · маркетолог-смысловик<br><a href="${TG}" target="_blank" rel="noopener">@antonina_aldatova</a></div>
   </div>`;
   document.getElementById('send').onclick = () => {
     let ok = false;
