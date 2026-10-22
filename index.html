@@ -121,7 +121,8 @@
 
   /* --- Результат --- */
   .res-hero{text-align:center;padding-top:4px}
-  .res-hero .kettle{width:200px;height:200px;margin:0 auto -4px}
+  .res-hero .kettle{width:150px;height:150px;margin:0 auto -4px}
+  .done{background:#e9f6ec;color:#1f6b2e;border:1.5px solid #9fd3a9;border-radius:16px;padding:14px 16px;font-weight:800;font-size:15.5px;text-align:center;margin:0 0 6px;animation:rise .4s both}
   .whoosh{display:inline-block;font-family:'Marck Script',cursive;color:var(--red);font-size:30px;transform:rotate(-6deg);animation:wh 1s ease-in-out infinite alternate}
   @keyframes wh{from{transform:rotate(-6deg) scale(1)}to{transform:rotate(-2deg) scale(1.08)}}
   .badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--black);padding:8px 14px;border-radius:999px;margin:6px 0 12px}
@@ -227,19 +228,19 @@ function intro(){
   app.innerHTML = `<div class="screen">${head()}
     <div class="hero">
       ${kettle(1)}
-      <div class="bubble" style="display:inline-block;margin-bottom:18px">Привет! Я <b>Нейрочайник</b> — проверим, насколько ты уже кипишь?</div>
-      <h1>Ты ещё <em>чайник</em><br>или уже свистишь?</h1>
+      <div class="bubble" style="display:inline-block;margin-bottom:18px">Привет! Я <b>Нейрочайник</b>. Помогу понять, с чего начать именно тебе</div>
+      <h1>Какой у тебя <em>уровень</em><br>в нейросетях?</h1>
       <div class="script" style="font-size:30px;margin:8px 0 14px">Тебе можно проще</div>
-      <p class="lead">Ответь на ${Q.length} коротких вопросов и узнай свой уровень в нейросетях. А по твоим ответам я подберу программу именно для тебя.</p>
+      <p class="lead">Тест на 3 минуты. Узнаешь, ты ещё «чайник» или уже уверенно пользуешься, и получишь личные рекомендации, с чего начать.</p>
       <div class="facts"><span><i>✦</i>${Q.length} вопросов</span><span><i>✦</i>3 минуты</span><span><i>✦</i>программа под тебя</span></div>
     </div>
     <div class="levels">
-      <div class="lv">${kettle(0)}<b>Уровень 1</b>Чайник только поставили</div>
-      <div class="lv">${kettle(2)}<b>Уровень 2</b>Закипает</div>
-      <div class="lv">${kettle(3)}<b>Уровень 3</b>Свистит!</div>
+      <div class="lv">${kettle(0)}<b>Уровень 1</b>Знакомство<br><span class="muted">только начинаю</span></div>
+      <div class="lv">${kettle(2)}<b>Уровень 2</b>Контент<br><span class="muted">пользуюсь, но хаотично</span></div>
+      <div class="lv">${kettle(3)}<b>Уровень 3</b>Автоматизация<br><span class="muted">хочу, чтобы всё делалось само</span></div>
     </div>
-    <button class="btn" onclick="go(0)">Поставить чайник <span class="arr">→</span></button>
-    <div class="foot">${SHEET_URL ? 'Нажимая «Поставить чайник», ты соглашаешься, что твои ответы получит Антонина Алдатова, чтобы подобрать тебе программу. Больше они никуда не передаются' : 'Ответы видим только ты и я — ты сама решаешь, отправлять ли их мне'}</div>
+    <button class="btn" onclick="go(0)">Пройти тест <span class="arr">→</span></button>
+    <div class="foot">${SHEET_URL ? 'Нажимая «Пройти тест», ты соглашаешься, что твои ответы получит Антонина Алдатова, чтобы подобрать тебе программу. Больше они никуда не передаются' : 'Ответы видим только ты и я — ты сама решаешь, отправлять ли их мне'}</div>
   </div>`;
   window.scrollTo(0,0);
 }
@@ -386,20 +387,16 @@ function result(){
   const goals = goalsList();
   app.innerHTML = `<div class="screen">${head()}
     <div class="thermo"><div class="bar"><i style="width:100%"></i></div><span>100°</span></div>
+    ${SHEET_URL ? `<div class="done">✓ Готово! Твои ответы отправлены Антонине</div>` : ''}
     <div class="res-hero">
       ${kettle(L.heat)}
       ${L.n===3?'<div class="whoosh">фьють-фьють!</div>':''}
       <div><span class="badge">${esc(A.name||'')} · уровень ${L.n} «${L.name}»</span></div>
-      <h1 style="font-size:clamp(44px,12vw,64px)"><em>${L.title}</em></h1>
+      <h1 style="font-size:clamp(40px,11vw,60px)"><em>${L.title}</em></h1>
     </div>
-    <p class="lead" style="text-align:center;margin:12px 0 4px">${L.text}</p>
-    <div class="card"><h3>Что тебе подойдёт</h3><ul>${L.fit.map(f=>`<li>${f}</li>`).join('')}</ul></div>
-    <div class="card"><h3>Мои рекомендации для тебя</h3><ul>${advice(L).map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>
-    ${goals.length?`<div class="card"><h3>Ты хочешь научиться</h3><div class="tags">${goals.map(g=>`<span>${esc(g)}</span>`).join('')}</div><p class="lead" style="font-size:15px">Всё это реально сделать с нейросетью. Я подскажу, с чего начать именно тебе.</p></div>`:''}
     <div class="card accent">
       <h3>Подберу программу именно для тебя</h3>
-      <p class="lead" style="font-size:15px">Уровень — это только начало. По твоим ответам я пойму, что тебе важно, что отнимает время и что останавливает, — и предложу формат и программу под тебя.</p>
-      ${SHEET_URL ? `<p class="lead" style="font-size:15px;margin:12px 0 16px"><b style="color:#2f8a3f">Твои ответы уже у меня ✓</b> Я посмотрю их и напишу тебе. А если хочешь обсудить сразу — напиши мне сама.</p>` : `<ul class="steps">
+      ${SHEET_URL ? `<p class="lead" style="font-size:15px;margin-bottom:16px">Я посмотрю твои ответы и напишу тебе. А если хочешь обсудить сразу — напиши мне сама.</p>` : `<ul class="steps">
         <li>Нажми кнопку — ответы скопируются</li>
         <li>Откроется мой Telegram</li>
         <li>Вставь ответы в сообщение и отправь</li>
@@ -408,6 +405,10 @@ function result(){
       <div class="copied" id="copied"></div>
       <details><summary>Посмотреть, что отправится</summary><pre id="pre">${esc(txt)}</pre></details>
     </div>
+    <p class="lead" style="text-align:center;margin:8px 0 4px">${L.text}</p>
+    <div class="card"><h3>Что тебе подойдёт</h3><ul>${L.fit.map(f=>`<li>${f}</li>`).join('')}</ul></div>
+    <div class="card"><h3>Мои рекомендации для тебя</h3><ul>${advice(L).map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>
+    ${goals.length?`<div class="card"><h3>Ты хочешь научиться</h3><div class="tags">${goals.map(g=>`<span>${esc(g)}</span>`).join('')}</div><p class="lead" style="font-size:15px">Всё это реально сделать с нейросетью. Я подскажу, с чего начать именно тебе.</p></div>`:''}
     <button class="btn ghost" onclick="A={};sent=false;intro()">Пройти заново</button>
     <div class="foot">Антонина Алдатова · маркетолог-смысловик<br><a href="${TG}" target="_blank" rel="noopener">@antonina_aldatova</a></div>
   </div>`;
