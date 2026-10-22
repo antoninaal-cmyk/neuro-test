@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Твой нейро-уровень</title>
+<meta name="description" content="Тест на 3 минуты от Антонины Алдатовой: узнай свой уровень в нейросетях и какая программа тебе подойдёт.">
+<meta property="og:title" content="Какой у тебя нейро-уровень? · Антонина Алдатова">
+<meta property="og:description" content="14 вопросов, 3 минуты. Узнай свой уровень и получи программу под себя.">
+<meta property="og:image" content="hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;700&family=Marck+Script&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#111010;--red:#C8161D;--snow:#F6F4F2;--white:#fff;--grey:#6b6764;--line:#e2ddd8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{background:var(--black);color:var(--white);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:620px;margin:0 auto;padding:22px 16px 40px;min-height:100vh;display:flex;flex-direction:column}
+  .top{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8b8785;padding-bottom:16px;border-bottom:1px solid #2c2a29}
+  .top b{color:var(--red);font-weight:700}
+  h1,h2{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.05}
+  h1{font-size:clamp(44px,11vw,68px);margin:26px 0 6px}
+  h2{font-size:clamp(28px,7vw,38px);margin-bottom:10px}
+  .script{font-family:'Marck Script',cursive;color:var(--red);font-weight:400}
+  .lead{font-size:16px;line-height:1.6;color:#d9d5d2}
+  .kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:12px}
+  .arch{width:200px;height:270px;border-radius:120px 120px 12px 12px;border:1.5px solid var(--red);padding:6px;margin:26px auto 6px;position:relative}
+  .arch img{width:100%;height:100%;object-fit:cover;border-radius:114px 114px 8px 8px;display:block}
+  .seal{position:absolute;right:-34px;bottom:18px;width:86px;height:86px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Marck Script',cursive;font-size:18px;line-height:1;transform:rotate(-12deg)}
+  .facts{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 26px}
+  .facts span{border:1px solid #3a3736;padding:8px 12px;font-size:13px;color:#d9d5d2}
+  .btn{display:block;width:100%;background:var(--red);color:#fff;border:0;padding:17px 20px;font:700 16px Manrope,sans-serif;letter-spacing:.5px;cursor:pointer;text-align:center;text-decoration:none;transition:opacity .2s}
+  .btn:disabled{opacity:.35;cursor:default}
+  .btn.ghost{background:transparent;border:1px solid #3a3736;color:#d9d5d2;font-weight:500}
+  .progress{height:3px;background:#2c2a29;margin:18px 0 26px}
+  .progress i{display:block;height:100%;background:var(--red);transition:width .3s}
+  .qnum{font-size:12px;letter-spacing:2px;color:#8b8785;margin-bottom:10px}
+  .hint{font-size:14px;color:#a8a3a0;margin-bottom:18px;line-height:1.5}
+  .opts{display:flex;flex-direction:column;gap:10px;margin:8px 0 24px}
+  .opt{text-align:left;background:transparent;border:1px solid #3a3736;color:#fff;padding:15px 16px 15px 46px;font:500 16px Manrope,sans-serif;cursor:pointer;position:relative;line-height:1.35;transition:border-color .15s,background .15s}
+  .opt::before{content:"";position:absolute;left:16px;top:50%;width:16px;height:16px;margin-top:-8px;border:1.5px solid #6b6764;border-radius:50%}
+  .opt.multi::before{border-radius:2px}
+  .opt.on{border-color:var(--red);background:rgba(200,22,29,.12)}
+  .opt.on::before{border-color:var(--red);background:var(--red);box-shadow:inset 0 0 0 3px var(--black)}
+  textarea,input[type=text]{width:100%;background:transparent;border:1px solid #3a3736;color:#fff;padding:15px 16px;font:500 16px Manrope,sans-serif;margin:8px 0 24px;resize:vertical}
+  textarea{min-height:110px}
+  textarea:focus,input:focus{outline:none;border-color:var(--red)}
+  .nav{display:flex;gap:10px;margin-top:4px}
+  .nav .btn.ghost{width:auto;flex:0 0 auto;white-space:nowrap;padding:17px 18px}
+  .result-level{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,10vw,58px);font-weight:600;line-height:1;margin:6px 0 4px}
+  .result-level em{color:var(--red);font-style:italic}
+  .card{border:1px solid #3a3736;padding:20px 18px;margin:20px 0}
+  .card.red{border-color:var(--red)}
+  .card h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:10px}
+  .card ul{list-style:none}
+  .card li{font-size:15px;line-height:1.5;padding:5px 0 5px 24px;position:relative;color:#e6e2df}
+  .card li::before{content:"✦";position:absolute;left:0;color:var(--red)}
+  .steps{counter-reset:s;list-style:none;margin:10px 0 18px}
+  .steps li{counter-increment:s;font-size:15px;line-height:1.5;padding:6px 0 6px 34px;position:relative;color:#e6e2df}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .copied{font-size:14px;color:#9fd3a5;margin:10px 0 0;min-height:20px;text-align:center}
+  details{margin-top:14px}
+  summary{cursor:pointer;font-size:14px;color:#a8a3a0}
+  pre{white-space:pre-wrap;font:13px/1.5 Manrope,sans-serif;color:#d9d5d2;background:#1b1a19;padding:14px;margin-top:10px;border:1px solid #2c2a29}
+  .foot{margin-top:30px;text-align:center;font-size:12px;color:#6b6764;letter-spacing:1px}
+  .foot a{color:#a8a3a0}
+  .screen{animation:in .25s ease}
+  @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const TG = 'https://t.me/antonina_aldatova';
+
+const Q = [
+  {id:'name', type:'text', q:'Как тебя зовут?', ph:'Имя', req:true, short:true},
+  {id:'job', type:'text', q:'Чем ты занимаешься?', hint:'Например: мастер маникюра, психолог, кондитер, гид', ph:'Моё дело', req:true, short:true},
+  {id:'nets', type:'multi', q:'Какими нейросетями пользуешься?', hint:'Можно выбрать несколько', opts:['Пока никакими','DeepSeek','ChatGPT','Claude','Другими'], excl:['Пока никакими']},
+  {id:'freq', type:'single', q:'Как часто?', opts:['Не пользуюсь','Пару раз пробовала','Каждую неделю','Каждый день'], score:[0,1,2,3]},
+  {id:'use', type:'multi', q:'Для чего чаще всего?', hint:'Можно выбрать несколько', opts:['Задать вопрос','Написать текст','Картинки','Видео','Другое','Пока ни для чего'], excl:['Пока ни для чего']},
+  {id:'prompts', type:'single', q:'Есть ли у тебя сохранённые промпты или настроенный помощник?', opts:['Нет','Есть сохранённые промпты','Есть настроенный помощник с инструкциями'], score:[0,1,2]},
+  {id:'content', type:'single', q:'Делала ли с нейросетью сторис, посты, карусели или монтаж?', opts:['Нет','Пробовала пару раз','Делаю регулярно'], score:[0,1,2]},
+  {id:'connect', type:'single', q:'Подключала ли нейросеть к другим сервисам: Telegram, таблицам, соцсетям?', opts:['Нет / не знаю, как это','Пробовала','Да, у меня подключено'], score:[0,1,2]},
+  {id:'time', type:'text', q:'Что в работе отнимает у тебя больше всего времени?', hint:'Своими словами', ph:'Например: придумывать, что выложить'},
+  {id:'goal', type:'text', q:'Что хочешь уметь с нейросетями через месяц?', hint:'Своими словами', ph:'Хочу, чтобы…'},
+  {id:'why', type:'single', q:'Для чего тебе соцсети?', opts:['Продвигаю свой бизнес или услуги','Веду личный блог, хочу на нём зарабатывать','Веду личный блог для себя','Пока не веду, но хочу начать']},
+  {id:'social', type:'multi', q:'Какие соцсети ты ведёшь?', hint:'Можно выбрать несколько', opts:['Instagram','Telegram-канал','ВКонтакте','MAX','YouTube или Дзен','Пока нигде'], excl:['Пока нигде']},
+  {id:'post', type:'single', q:'Как часто ты сейчас выкладываешь контент?', opts:['Каждый день','Несколько раз в неделю','Пару раз в месяц','Редко, когда есть настроение','Пока не выкладываю']},
+  {id:'fear', type:'text', q:'Что тебя пугает или останавливает в нейросетях?', hint:'Своими словами — так я лучше пойму, с чего начать именно тебе', ph:'Честно, как есть'}
+];
+
+const LEVELS = [
+  {n:1, name:'Знакомство', title:'Ты в начале пути — и это лучшее место для старта',
+   text:'Нейросети пока кажутся сложными, но тебе нужно совсем немного, чтобы они начали экономить часы. Начнём с основы — и уже на первой встрече ты почувствуешь разницу.',
+   fit:['Регистрация в Claude и ChatGPT без путаницы','Первые запросы: как спрашивать, чтобы получать нужное','Свой личный нейромаркетолог, который знает твой бизнес','Готовые промпты для постов и сторис']},
+  {n:2, name:'Контент', title:'Ты уже пользуешься — пора, чтобы нейросеть работала на твой контент',
+   text:'База у тебя есть. Следующий шаг — превратить нейросеть в помощника, который регулярно выдаёт идеи и готовый контент.',
+   fit:['Сторис, посты и карусели с нейросетью','Монтаж Reels: паузы, субтитры, нарезка','Контент-план и рубрики — из одной идеи десятки роликов','Дайджест новостей нейросетей каждое утро']},
+  {n:3, name:'Автоматизация', title:'Ты уверенно пользуешься — следующий шаг, чтобы рутина делалась сама',
+   text:'Тебе уже мало отдельных запросов. Пора собрать агента, который сам работает с файлами, сервисами и публикациями.',
+   fit:['Свой агент под задачи бизнеса','Подключение Telegram, таблиц и других сервисов','Сайт или лид-магнит — от создания до публикации','Автопубликация и задачи по расписанию']}
+];
+
+let i = -1, A = {};
+const app = document.getElementById('app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const head = () => `<div class="top"><span>Антонина Алдатова</span><b>нейро-тест</b></div>`;
+
+function intro(){
+  app.innerHTML = `<div class="screen">${head()}
+    <div class="arch"><img src="hero.jpg" alt="Антонина Алдатова"><div class="seal">3<br>минуты</div></div>
+    <div class="kicker" style="text-align:center;margin-top:22px">Тест для мастеров и экспертов</div>
+    <h1 style="text-align:center;margin-top:0">Какой у тебя<br>нейро-уровень?</h1>
+    <div class="script" style="font-size:34px;text-align:center;margin-bottom:16px">Тебе можно проще</div>
+    <p class="lead" style="text-align:center">Ответь на 14 коротких вопросов — и узнаешь, на каком ты уровне в нейросетях. А по твоим ответам я подберу программу именно для тебя.</p>
+    <div class="facts" style="justify-content:center"><span>14 вопросов</span><span>3 минуты</span><span>3 уровня</span></div>
+    <button class="btn" onclick="go(0)">Начать тест →</button>
+    <div class="foot">Ответы видишь только ты и я — ты сама решаешь, отправлять ли их мне</div>
+  </div>`;
+}
+
+function go(n){ i = n; n >= Q.length ? result() : ask(); window.scrollTo(0,0); }
+
+function ask(){
+  const q = Q[i], v = A[q.id];
+  let body = '';
+  if (q.type === 'text') {
+    const val = esc(v || '');
+    body = q.short
+      ? `<input type="text" id="t" placeholder="${esc(q.ph||'')}" value="${val}" autocomplete="off">`
+      : `<textarea id="t" placeholder="${esc(q.ph||'')}">${val}</textarea>`;
+  } else {
+    body = `<div class="opts">${q.opts.map((o,k)=>{
+      const on = q.type==='single' ? v===k : (v||[]).includes(k);
+      return `<button class="opt ${q.type==='multi'?'multi':''} ${on?'on':''}" onclick="pick(${k})">${esc(o)}</button>`;
+    }).join('')}</div>`;
+  }
+  const needNext = q.type !== 'single';
+  app.innerHTML = `<div class="screen" style="display:flex;flex-direction:column;flex:1">${head()}
+    <div class="progress"><i style="width:${(i/Q.length)*100}%"></i></div>
+    <div class="qnum">ВОПРОС ${i+1} ИЗ ${Q.length}</div>
+    <h2>${esc(q.q)}</h2>
+    ${q.hint?`<div class="hint">${esc(q.hint)}</div>`:''}
+    ${body}
+    <div class="nav">
+      <button class="btn ghost" onclick="go(${i-1})">← Назад</button>
+      ${needNext?`<button class="btn" id="next" onclick="next()">${i===Q.length-1?'Узнать результат':'Дальше →'}</button>`:''}
+    </div>
+  </div>`;
+  if (i === 0) document.querySelector('.nav .ghost').onclick = intro;
+  const t = document.getElementById('t');
+  if (t) { t.focus(); t.oninput = check; t.onkeydown = e => { if (e.key==='Enter' && q.short) { e.preventDefault(); next(); } }; }
+  check();
+}
+
+function check(){
+  const q = Q[i], b = document.getElementById('next'); if (!b) return;
+  if (q.type === 'text') b.disabled = q.req && !document.getElementById('t').value.trim();
+  if (q.type === 'multi') b.disabled = !(A[q.id]||[]).length;
+}
+
+function pick(k){
+  const q = Q[i];
+  if (q.type === 'single') { A[q.id] = k; ask(); setTimeout(()=>go(i+1), 220); return; }
+  let s = A[q.id] || [];
+  const exclIdx = (q.excl||[]).map(e=>q.opts.indexOf(e));
+  if (s.includes(k)) s = s.filter(x=>x!==k);
+  else if (exclIdx.includes(k)) s = [k];
+  else s = s.filter(x=>!exclIdx.includes(x)).concat(k);
+  A[q.id] = s; ask();
+}
+
+function next(){
+  const q = Q[i];
+  if (q.type === 'text') { const val = document.getElementById('t').value.trim(); if (q.req && !val) return; A[q.id] = val; }
+  if (q.type === 'multi' && !(A[q.id]||[]).length) return;
+  go(i+1);
+}
+
+function score(){
+  const get = id => Q.find(q=>q.id===id);
+  let s = 0;
+  const nets = (A.nets||[]).map(k=>get('nets').opts[k]);
+  if (!nets.includes('Пока никакими')) s += (nets.length >= 2 || nets.includes('Claude')) ? 2 : 1;
+  const use = (A.use||[]).map(k=>get('use').opts[k]);
+  if (!use.includes('Пока ни для чего')) s += Math.min(2, ['Написать текст','Картинки','Видео'].filter(x=>use.includes(x)).length);
+  ['freq','prompts','content','connect'].forEach(id=>{ const q=get(id); if (A[id]!=null) s += q.score[A[id]]; });
+  return s <= 4 ? LEVELS[0] : s <= 9 ? LEVELS[1] : LEVELS[2];
+}
+
+function answersText(L){
+  const lines = [`Привет, Антонина! Я прошла нейро-тест.`, `Мой результат: уровень ${L.n} «${L.name}»`, ''];
+  Q.forEach((q,k)=>{
+    let v = A[q.id];
+    if (q.type==='single') v = v!=null ? q.opts[v] : '—';
+    else if (q.type==='multi') v = (v||[]).map(x=>q.opts[x]).join(', ') || '—';
+    else v = v || '—';
+    lines.push(`${k+1}. ${q.q}\n— ${v}`);
+  });
+  return lines.join('\n');
+}
+
+function result(){
+  const L = score(), txt = answersText(L);
+  app.innerHTML = `<div class="screen">${head()}
+    <div class="progress"><i style="width:100%"></i></div>
+    <div class="kicker">${esc(A.name||'')}, твой результат</div>
+    <div class="result-level">Уровень ${L.n}<br><em>«${L.name}»</em></div>
+    <h2 style="font-size:24px;margin:16px 0 10px">${L.title}</h2>
+    <p class="lead">${L.text}</p>
+    <div class="card"><h3>Что тебе подойдёт</h3><ul>${L.fit.map(f=>`<li>${f}</li>`).join('')}</ul></div>
+    <div class="card red">
+      <h3>Подберу программу именно для тебя</h3>
+      <p class="lead" style="font-size:15px;margin-bottom:8px">Уровень — это только начало. По твоим ответам я пойму, что тебе важно, что отнимает время и что останавливает, — и предложу формат и программу под тебя.</p>
+      <ol class="steps">
+        <li>Нажми кнопку — ответы скопируются</li>
+        <li>Откроется мой Telegram</li>
+        <li>Вставь ответы в сообщение и отправь</li>
+      </ol>
+      <a class="btn" id="send" href="${TG}" target="_blank" rel="noopener">Отправить ответы Антонине →</a>
+      <div class="copied" id="copied"></div>
+      <details><summary>Посмотреть, что отправится</summary><pre id="pre">${esc(txt)}</pre></details>
+    </div>
+    <button class="btn ghost" onclick="A={};intro()">Пройти заново</button>
+    <div class="foot">Антонина Алдатова · <a href="${TG}" target="_blank" rel="noopener">@antonina_aldatova</a></div>
+  </div>`;
+  document.getElementById('send').onclick = () => {
+    let ok = false;
+    try { const ta = document.createElement('textarea'); ta.value = txt; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, txt.length); ok = document.execCommand('copy'); ta.remove(); } catch(e) {}
+    try { if (navigator.clipboard) { navigator.clipboard.writeText(txt).catch(()=>{}); ok = true; } } catch(e) {}
+    document.getElementById('copied').textContent = ok
+      ? 'Ответы скопированы ✓ Вставь их в сообщение в Telegram'
+      : 'Не получилось скопировать автоматически — открой «Посмотреть, что отправится» и скопируй текст вручную';
+    if (!ok) document.querySelector('details').open = true;
+  };
+}
+
+intro();
+</script>
+</body>
+</html>
