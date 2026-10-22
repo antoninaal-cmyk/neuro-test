@@ -325,17 +325,42 @@ function val(q){
   return v;
 }
 
+function goalsList(){
+  const gq = Q.find(q=>q.id==='goal');
+  const g = (A.goal||[]).map(k=>gq.opts[k]);
+  if ((A.goal_other||'').trim()) g.push(A.goal_other.trim());
+  return g;
+}
+
+function advice(L){
+  const r = [], goals = (A.goal||[]).map(k=>Q.find(q=>q.id==='goal').opts[k]);
+  if (A.memory !== 2) r.push('Настроить личного нейромаркетолога, который знает твой бизнес, — чтобы не объяснять всё заново каждый раз');
+  if (A.why === 0) r.push('Контент, который приводит клиентов: смыслы, прогрев и продающие сторис');
+  if (A.post >= 2) r.push('Регулярность без выгорания: контент-план и поддержка, чтобы не сливаться');
+  if (goals.some(g=>/карусел|Reels|посты/.test(g))) r.push('Практика по контенту с нейросетью: посты, карусели и монтаж Reels');
+  if (goals.some(g=>/сайт|лид-магнит|бота|публикации/.test(g))) r.push('Настройка агента под ключ: сайт, лид-магнит, бот или автопубликация');
+  if (!r.length) r.push(L.n === 3 ? 'Свой агент под задачи бизнеса' : 'Живой практикум с внедрением под твой уровень');
+  return r.slice(0,4);
+}
+
 function answersText(L){
-  const lines = ['Привет, Антонина! Я прошла нейро-тест.', `Мой результат: уровень ${L.n} «${L.name}» — ${L.title}`, ''];
-  Q.forEach((q,k)=>lines.push(`${k+1}. ${q.q}\n— ${val(q)}`));
-  return lines.join('\n');
+  const lines = [
+    'Привет, Антонина! Я прошла нейро-тест.', '',
+    `Имя: ${A.name||'—'}`, `Чем занимаюсь: ${A.job||'—'}`,
+    `Мой результат: уровень ${L.n} «${L.name}» — ${L.title}`, '',
+    'Что мне подойдёт:', ...L.fit.map(f=>'• '+f), '',
+    'Рекомендации для меня:', ...advice(L).map(f=>'• '+f), ''
+  ];
+  const g = goalsList();
+  if (g.length) lines.push('Хочу научиться:', ...g.map(f=>'• '+f), '');
+  lines.push('— Мои ответы —');
+  Q.forEach((q,k)=>{ if (q.id!=='name' && q.id!=='job') lines.push(`${k+1}. ${q.q}\n— ${val(q)}`); });
+  return lines.join('\n').replace(/твой бизнес/g,'мой бизнес').replace(/твоему/g,'моему');
 }
 
 function result(){
   const L = score(), txt = answersText(L);
-  const gq = Q.find(q=>q.id==='goal');
-  const goals = (A.goal||[]).map(k=>gq.opts[k]);
-  if ((A.goal_other||'').trim()) goals.push(A.goal_other.trim());
+  const goals = goalsList();
   app.innerHTML = `<div class="screen">${head()}
     <div class="thermo"><div class="bar"><i style="width:100%"></i></div><span>100°</span></div>
     <div class="res-hero">
@@ -346,6 +371,7 @@ function result(){
     </div>
     <p class="lead" style="text-align:center;margin:12px 0 4px">${L.text}</p>
     <div class="card"><h3>Что тебе подойдёт</h3><ul>${L.fit.map(f=>`<li>${f}</li>`).join('')}</ul></div>
+    <div class="card"><h3>Мои рекомендации для тебя</h3><ul>${advice(L).map(f=>`<li>${esc(f)}</li>`).join('')}</ul></div>
     ${goals.length?`<div class="card"><h3>Ты хочешь научиться</h3><div class="tags">${goals.map(g=>`<span>${esc(g)}</span>`).join('')}</div><p class="lead" style="font-size:15px">Всё это реально сделать с нейросетью. Я подскажу, с чего начать именно тебе.</p></div>`:''}
     <div class="card accent">
       <h3>Подберу программу именно для тебя</h3>
