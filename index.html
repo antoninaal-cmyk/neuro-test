@@ -362,19 +362,24 @@ function answersText(L){
   return lines.join('\n').replace(/твой бизнес/g,'мой бизнес').replace(/твоему/g,'моему');
 }
 
+// Откуда пришёл человек: ссылка вида .../neuro-test/?from=marina
+const SOURCES = {marina:'Клуб Марины', tg:'Мой Telegram-канал', insta:'Instagram', max:'MAX', site:'Сайт возможностей'};
+const FROM = (new URLSearchParams(location.search).get('from') || '').toLowerCase();
+const SOURCE = SOURCES[FROM] || 'Прямая ссылка';
+
 let sent = false;
 function sendToSheet(L){
   if (!SHEET_URL || sent) return;
   sent = true;
   const g = goalsList(), adv = advice(L);
   const fields = [
-    ['Имя', A.name||''], ['Телефон', A.phone||''], ['Чем занимается', A.job||''],
+    ['Откуда', SOURCE], ['Имя', A.name||''], ['Телефон', A.phone||''], ['Чем занимается', A.job||''],
     ['Уровень', L.n], ['Результат', `${L.name} — ${L.title}`],
     ['Рекомендации', adv.join('; ')], ['Хочет научиться', g.join('; ')]
   ];
   Q.forEach(q=>{ if (!['name','job','phone'].includes(q.id)) fields.push([q.q, val(q)]); });
   const fear = (A.fear||'').trim();
-  const summary = `🔔 Новый нейро-тест\n${A.name||'—'} · ${A.job||'—'}${A.phone?`\nКонтакт: ${A.phone}`:''}\nУровень ${L.n} «${L.name}» — ${L.title}` +
+  const summary = `🔔 Новый нейро-тест\nОткуда: ${SOURCE}\n${A.name||'—'} · ${A.job||'—'}${A.phone?`\nКонтакт: ${A.phone}`:''}\nУровень ${L.n} «${L.name}» — ${L.title}` +
     (g.length ? `\nХочет: ${g.join(', ')}` : '') + (fear ? `\nБоится: ${fear}` : '');
   try {
     fetch(SHEET_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({fields, summary})}).catch(()=>{});
